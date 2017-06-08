@@ -3,9 +3,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URL;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -75,22 +80,63 @@ public class SignInPage {
 		public void actionPerformed(ActionEvent e) {
 			int unCount = myUsernameField.getText().length();
 			int passCount = myPasswordField.getPassword().length;
-			if(unCount >= 5 && passCount >= 5){
-				myPanel.remove(myErrorLabel);
+ ///				myPanel.remove(myErrorLabel);
 				myPanel.repaint();
 				myUsername = myUsernameField.getText();
 				myPassword = new String(myPasswordField.getPassword());
-				System.out.println(myUsername + " " + myPassword);
-			} else {
-				myErrorLabel = new JLabel ("<html>Username has to be longer than 5 char<br>"
-						+ "Password has to be longer than 5 char<html>");
-				myErrorLabel.setForeground(Color.RED);
-				myErrorLabel.setBounds(550, 210, myErrorLabel.getPreferredSize().width, myErrorLabel.getPreferredSize().height);
-				myPanel.add(myErrorLabel);
-				myPanel.repaint();
+				///////////
+				
+				URL url = getClass().getResource("login.txt");
+				File loginf = new File(url.getPath());
+				if(loginf.exists()) {System.out.println("file exists");}
+	            try{
+	                Scanner read = new Scanner(loginf);
+	                read.useDelimiter(",");
+
+	                boolean login = false;
+	                while(read.hasNextLine()){
+	                   String user = read.next();
+	                   String pass = read.next();
+	                   if(myUsername.equals(user) && myPassword.equals(pass)){
+	                      login = true;
+	                      break;                 
+	                   }
+	                }
+	                if(login)
+		                   myPanel.setVisible(false);
+	                else {
+		                JOptionPane.showMessageDialog(null, "Incorrect username or password");
+		                myUsernameField.setText("");
+		                myPasswordField.setText("");
+	                }
+
+
+	                read.close();
+	            }
+	            catch (FileNotFoundException qwerty){
+	                    JOptionPane.showMessageDialog(null, "Can't find a text file");
+	            }
+	       }
+				
+			
+				
+				
+				
+				
+//				SignIn signInCheck = new SignIn();
+//				if(signInCheck.checkSignIn(myUsername, myPassword))	{
+//					myPanel.setVisible(false);
+//					myPanel.repaint();
+//				} else { System.out.println("false"); }
+//			} else {
+//				myErrorLabel = new JLabel ("<html>Username has to be longer than 5 char<br>"
+//						+ "Password has to be longer than 5 char<html>");
+//				myErrorLabel.setForeground(Color.RED);
+//				myErrorLabel.setBounds(550, 210, myErrorLabel.getPreferredSize().width, myErrorLabel.getPreferredSize().height);
+//				myPanel.add(myErrorLabel);
+//				myPanel.repaint();
 			}
-		}
-	}
+
 	public class SignUpListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {

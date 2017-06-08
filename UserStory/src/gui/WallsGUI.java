@@ -16,6 +16,7 @@ public class WallsGUI {
 	private JButton wallsButton;
 	private JComboBox<String> myComboBox;
 	private int myWallsInt;
+	private int numWalls;
 	private JLabel numOfWallsLabel;
 	private JLabel nextLabel;
 	public WallsGUI(JPanel thePanel, JButton theWalls, JButton theStore, JButton theCalc){
@@ -51,6 +52,10 @@ public class WallsGUI {
 					myPanel.remove(nextLabel);
 					myPanel.repaint();
 				} else{
+					//////////////////////////////////////////////////
+					//CHANGE SYSTEM.OUT.PRINTLN TO THE CALCULATOR CALL 
+					//System.out.println(myComboBox.getSelectedIndex());
+					//////////////////////////////////////////////////
 					myWallsInt = Integer.parseInt(choice);
 					//btnNext.setEnabled(true);
 					storeButton.setEnabled(true);
